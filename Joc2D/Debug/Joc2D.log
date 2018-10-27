@@ -1,0 +1,13 @@
+﻿  Scene.cpp
+  Generando código...
+  Compilando...
+  main.cpp
+  Player.cpp
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(156): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(162): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(166): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+  Object.cpp
+  Game.cpp
+  Generando código...
+  Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.exe
+  Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.pdb (Full PDB)

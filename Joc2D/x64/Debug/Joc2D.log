@@ -1,0 +1,68 @@
+﻿  Texture.cpp
+  Sprite.cpp
+  Sound.cpp
+  ShaderProgram.cpp
+  Shader.cpp
+  Scene.cpp
+  Player.cpp
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(107): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(118): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(129): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(135): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+  Map.cpp
+  main.cpp
+  Game.cpp
+  Background.cpp
+  Generando código...
+main.obj : error LNK2019: símbolo externo __imp_glewInit sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutInitWindowPosition sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutInitWindowSize sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutInitDisplayMode sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutMainLoop sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutPostRedisplay sin resolver al que se hace referencia en la función "void __cdecl idleCallback(void)" (?idleCallback@@YAXXZ)
+main.obj : error LNK2019: símbolo externo __imp_glutSwapBuffers sin resolver al que se hace referencia en la función "void __cdecl drawCallback(void)" (?drawCallback@@YAXXZ)
+main.obj : error LNK2019: símbolo externo __imp_glutIdleFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutKeyboardFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutSpecialFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutDisplayFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutMouseFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutMotionFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutKeyboardUpFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutSpecialUpFunc sin resolver al que se hace referencia en la función main
+main.obj : error LNK2019: símbolo externo __imp_glutGet sin resolver al que se hace referencia en la función "void __cdecl idleCallback(void)" (?idleCallback@@YAXXZ)
+main.obj : error LNK2019: símbolo externo __imp___glutInitWithExit sin resolver al que se hace referencia en la función glutInit_ATEXIT_HACK
+main.obj : error LNK2019: símbolo externo __imp___glutCreateWindowWithExit sin resolver al que se hace referencia en la función glutCreateWindow_ATEXIT_HACK
+main.obj : error LNK2001: símbolo externo __imp_glewExperimental sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewCompileShader sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewCreateShader sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewDeleteShader sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewGetShaderInfoLog sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewGetShaderiv sin resolver
+Shader.obj : error LNK2001: símbolo externo __imp___glewShaderSource sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewAttachShader sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewBindAttribLocation sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewCreateProgram sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewDeleteProgram sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewGetAttribLocation sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewGetProgramInfoLog sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewGetProgramiv sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewGetUniformLocation sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewLinkProgram sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewUniform2f sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewUniform3f sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewUniform4f sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewUniformMatrix4fv sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewUseProgram sin resolver
+ShaderProgram.obj : error LNK2001: símbolo externo __imp___glewVertexAttribPointer sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewBindBuffer sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewBufferData sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewDeleteBuffers sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewGenBuffers sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewEnableVertexAttribArray sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewBindVertexArray sin resolver
+Sprite.obj : error LNK2001: símbolo externo __imp___glewGenVertexArrays sin resolver
+Texture.obj : error LNK2019: símbolo externo SOIL_load_image sin resolver al que se hace referencia en la función "public: bool __cdecl Texture::loadFromFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,enum PixelFormat)" (?loadFromFile@Texture@@QEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4PixelFormat@@@Z)
+Texture.obj : error LNK2001: símbolo externo __imp___glewGenerateMipmap sin resolver
+..\libs\freeglut\lib\freeglut.lib : warning LNK4272: el tipo de máquina de biblioteca 'X86' está en conflicto con el tipo de máquina de destino 'x64'
+..\libs\irrKlang-1.6.0\lib\Win32-visualStudio\irrKlang.lib : warning LNK4272: el tipo de máquina de biblioteca 'X86' está en conflicto con el tipo de máquina de destino 'x64'
+C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\x64\Debug\Joc2D.exe : fatal error LNK1120: 49 externos sin resolver
