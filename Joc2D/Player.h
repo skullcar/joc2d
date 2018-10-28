@@ -20,8 +20,8 @@ public:
 	void update(int deltaTime);
 	void render();
 	
-	void setPosition(const glm::vec2 &pos);
-	void setSize(const glm::vec2 &size);
+	void setPosition(const glm::ivec2 &pos);
+	void setSize(const glm::ivec2 &size);
 	void setMap(Map *mapn);
 	void setSprite(char* spr, ShaderProgram &shaderProgram);
 
@@ -42,8 +42,9 @@ private:
 	bool bJumping;
 	bool invisible;
 	bool bsprite;
-	glm::vec2 posPlayer, sizePlayer;
+	glm::ivec2 posPlayer, sizePlayer;
 	int jumpAngle, startY;
+
 	Texture spritesheet;
 	Sprite *sprite;
 	Map *map;

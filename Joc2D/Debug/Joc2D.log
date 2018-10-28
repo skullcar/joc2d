@@ -1,22 +1,3 @@
-﻿  Texture.cpp
-  Sprite.cpp
-  cSound.cpp
-  ShaderProgram.cpp
-  Shader.cpp
-  Scene.cpp
-  Player.cpp
-c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(156): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
-c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(162): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-c:\users\esaus\desktop\universitat\optatives\vj\joc2d\joc2d\player.cpp(166): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-  Object.cpp
-  Map.cpp
-  main.cpp
-  Game.cpp
-  Background.cpp
-  Generando código...
-SOIL.lib(image_DXT.obj) : warning LNK4099: no se encontró PDB 'vc100.pdb' con 'SOIL.lib(image_DXT.obj)' o en 'C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\vc100.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
-SOIL.lib(image_helper.obj) : warning LNK4099: no se encontró PDB 'vc100.pdb' con 'SOIL.lib(image_helper.obj)' o en 'C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\vc100.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
-SOIL.lib(SOIL.obj) : warning LNK4099: no se encontró PDB 'vc100.pdb' con 'SOIL.lib(SOIL.obj)' o en 'C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\vc100.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
-SOIL.lib(stb_image_aug.obj) : warning LNK4099: no se encontró PDB 'vc100.pdb' con 'SOIL.lib(stb_image_aug.obj)' o en 'C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\vc100.pdb'; se vinculará el objeto sin tener en cuenta información de depuración
+﻿  Player.cpp
   Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.exe
   Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.pdb (Full PDB)

@@ -32,31 +32,56 @@ void Player::init(const glm::ivec2 &Pos,const glm::ivec2 &size)
 	invisible = true;
 }
 
-void Player::update(int deltaTime)
-{
+void Player::update(int deltaTime) {
 	sprite->update(deltaTime);
-	/*if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_UP))
-	{
+	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 		if (sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
 		posPlayer.y -= 2;
-		if (map->collisionLeft(posPlayer, glm::ivec2(32, 32)))
+		int dmg1 = map->collisionLeft(posPlayer, sizePlayer);
+		if (dmg1 == 0) {
+			posPlayer.x += 2;
+		}
+		if (dmg1 > 0)
 		{
-			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_LEFT);
+			posPlayer.x += 16;
+			health -= dmg1;
+			Sounds[DAMAGE]->play();
+		}
+		int dmg2 = map->collisionUp(posPlayer, sizePlayer);
+		if (dmg2 ==0) posPlayer.y += 2;
+		else if (dmg2 > 0){
+			posPlayer.y += 16;
+			if (dmg1 == 0) {
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
 		}
 	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_UP))
-	{
+	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_UP)){
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
 		posPlayer.y -= 2;
-		if (map->collisionRight(posPlayer, glm::ivec2(32, 32)))
-		{
+		int dmg1 = map->collisionRight(posPlayer, sizePlayer);
+		if (dmg1 == 0) {
 			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
+		}
+		if (dmg1 > 0)
+		{
+			posPlayer.x -= 16;
+			health -= dmg1;
+			Sounds[DAMAGE]->play();
+		}
+		int dmg2 = map->collisionUp(posPlayer, sizePlayer);
+		if (dmg2 == 0) posPlayer.y += 2;
+		else if (dmg2 > 0) {
+			posPlayer.y += 16;
+			if (dmg1 == 0) {
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
@@ -65,10 +90,24 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(MOVE_LEFT);
 		posPlayer.x -= 2;
 		posPlayer.y += 2;
-		if (map->collisionLeft(posPlayer, glm::ivec2(32, 32)))
+		int dmg1 = map->collisionLeft(posPlayer, sizePlayer);
+		if (dmg1 == 0) {
+			posPlayer.x += 2;
+		}
+		if (dmg1 > 0)
 		{
-			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_LEFT);
+			posPlayer.x += 16;
+			health -= dmg1;
+			Sounds[DAMAGE]->play();
+		}
+		int dmg2 = map->collisionDown(posPlayer, sizePlayer);
+		if (dmg2 == 0) posPlayer.y -= 2;
+		else if (dmg2 > 0) {
+			posPlayer.y -= 16;
+			if (dmg1 == 0) {
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
@@ -77,13 +116,27 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(MOVE_RIGHT);
 		posPlayer.x += 2;
 		posPlayer.y += 2;
-		if (map->collisionRight(posPlayer, glm::ivec2(32, 32)))
-		{
+		int dmg1 = map->collisionRight(posPlayer, sizePlayer);
+		if (dmg1 == 0) {
 			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
+		}
+		if (dmg1 > 0)
+		{
+			posPlayer.x -= 16;
+			health -= dmg1;
+			Sounds[DAMAGE]->play();
+		}
+		int dmg2 = map->collisionDown(posPlayer, sizePlayer);
+		if (dmg2 == 0) posPlayer.y -= 2;
+		else if (dmg2 > 0) {
+			posPlayer.y -= 16;
+			if (dmg1 == 0) {
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
 		}
 	}
-	else*/ if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
+	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
 	{
 		if (sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
@@ -91,13 +144,11 @@ void Player::update(int deltaTime)
 		int dmg = map->collisionLeft(posPlayer, sizePlayer);
 		if (dmg == 0) {
 			posPlayer.x += 2;
-			//sprite->changeAnimation(STAND_LEFT);
 		}
-		if (dmg > 0)
+		else if (dmg > 0)
 		{
-			posPlayer.x += 4;
+			posPlayer.x += 16;
 			health -= dmg;
-			//sprite->changeAnimation(STAND_LEFT);
 			Sounds[DAMAGE]->play();
 		}
 	}
@@ -109,14 +160,12 @@ void Player::update(int deltaTime)
 		int dmg = map->collisionRight(posPlayer, sizePlayer);
 		if (dmg == 0) {
 			posPlayer.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
 		}
-		if (dmg > 0)
+		else if (dmg > 0)
 		{
-			posPlayer.x -= 4;
+			posPlayer.x -= 16;
 			health -= dmg;
 			Sounds[DAMAGE]->play();
-			sprite->changeAnimation(STAND_RIGHT);
 		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
@@ -127,7 +176,7 @@ void Player::update(int deltaTime)
 		int dmg = map->collisionUp(posPlayer, sizePlayer);
 		if (dmg == 0) posPlayer.y += 2;
 		else if (dmg > 0) {
-			posPlayer.y += 4;
+			posPlayer.y += 16;
 			health -= dmg;
 			Sounds[DAMAGE]->play();
 			}
@@ -139,7 +188,7 @@ void Player::update(int deltaTime)
 		int dmg = map->collisionDown(posPlayer, sizePlayer);
 		if (dmg == 0) posPlayer.y -= 2;
 		else if (dmg > 0) {
-				posPlayer.y -= 4;
+				posPlayer.y -= 16;
 				health -= dmg;
 				Sounds[DAMAGE]->play();
 			}
@@ -180,12 +229,12 @@ void Player::render()
 	sprite->render();
 }
 
-void Player::setSize(const glm::vec2 &size){
+void Player::setSize(const glm::ivec2 &size){
 	sizePlayer.x = size.x;
 	sizePlayer.y = size.y - HITBOX_Y_SIZE;
 }
 
-void Player::setPosition(const glm::vec2 &pos)
+void Player::setPosition(const glm::ivec2 &pos)
 {
 	posPlayer.x = pos.x;
 	posPlayer.y = pos.y + HITBOX_Y_SIZE;

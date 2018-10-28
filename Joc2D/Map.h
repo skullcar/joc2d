@@ -24,6 +24,7 @@ private:
 	glm::ivec2 floor_size;
 	int c_x;
 	vector<Object*> objects;
+	vector<int> Enemys;
 };
 
 #endif
