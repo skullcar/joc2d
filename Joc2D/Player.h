@@ -16,39 +16,37 @@ class Player
 {
 
 public:
-	void init(const glm::ivec2 &Pos, const glm::ivec2 &size);
+	void init(int type, const glm::ivec2 &Pos, ShaderProgram &shaderProgram);
 	void update(int deltaTime);
 	void render();
 	
 	void setPosition(const glm::ivec2 &pos);
 	void setSize(const glm::ivec2 &size);
 	void setMap(Map *mapn);
-	void setSprite(char* spr, ShaderProgram &shaderProgram);
 
 	glm::ivec2 getPosition();
 	glm::ivec2 getSize();
 
 	bool IsDead();
-	bool IsInvisible();
-	bool haveSprite();
-	void Invisible(bool inv);
-	void ChangeSprite(char* spr);
 
 	
 private:
 
-	void AddSounds();
-	int health; 
+	int health, speed;
+	int combo;
 	bool bJumping;
-	bool invisible;
-	bool bsprite;
-	glm::ivec2 posPlayer, sizePlayer;
+	glm::vec2 posPlayer, colisionSize, hitboxSize, spriteMove;
 	int jumpAngle, startY;
-
+	int facing;
 	Texture spritesheet;
 	Sprite *sprite;
 	Map *map;
 	vector<cSound*> Sounds;
+
+	void createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram);
+	void createBlizzard(const glm::ivec2 &Pos, ShaderProgram &shaderProgram);
+	void createFlurry(const glm::ivec2 &Pos, ShaderProgram &shaderProgram);
+	void AddSounds();
 
 };
 

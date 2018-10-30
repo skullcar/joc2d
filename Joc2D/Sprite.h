@@ -13,6 +13,7 @@
 // able to manage animations stored as a spritesheet. 
 
 
+
 class Sprite
 {
 
@@ -29,10 +30,18 @@ public:
 	void setNumberAnimations(int nAnimations);
 	void setAnimationSpeed(int animId, int keyframesPerSec);
 	void addKeyframe(int animId, const glm::vec2 &frame);
+	void addKeyframeWithDmg(int animId, const glm::vec2 &displacement, int dmg, const glm::vec2 &hitbox, int distance);
+	void damageKeyframe(int i);
+
 	void changeAnimation(int animId);
 	int animation() const;
-	
+
 	void setPosition(const glm::vec2 &pos);
+	bool damage();
+
+	int getDamage();
+	glm::vec2 getHitBox();
+	int getDistance();
 
 private:
 	Texture *texture;
@@ -45,9 +54,8 @@ private:
 	float timeAnimation;
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;
-	
+	int damagekf;
 };
 
 
-#endif // _SPRITE_INCLUDE
-
+#endif 

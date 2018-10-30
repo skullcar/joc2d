@@ -9,7 +9,7 @@ enum Levels {
 void Game::init()
 {
 	bPlay = true;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.3f, 0.5f, 0.5f, 1.0f);
 	scene.init();
 }
 

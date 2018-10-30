@@ -11,37 +11,38 @@ Sprite *Sprite::createSprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInS
 
 Sprite::Sprite(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
 {
-	float vertices[24] = {						0.f, 0.f, 0.f, 0.f, 
-												quadSize.x, 0.f, sizeInSpritesheet.x, 0.f, 
-												quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y, 
-												0.f, 0.f, 0.f, 0.f, 
-												quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y, 
-												0.f, quadSize.y, 0.f, sizeInSpritesheet.y};
+	float vertices[24] = { 0.f, 0.f, 0.f, 0.f,
+		quadSize.x, 0.f, sizeInSpritesheet.x, 0.f,
+		quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y,
+		0.f, 0.f, 0.f, 0.f,
+		quadSize.x, quadSize.y, sizeInSpritesheet.x, sizeInSpritesheet.y,
+		0.f, quadSize.y, 0.f, sizeInSpritesheet.y };
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), vertices, GL_STATIC_DRAW);
-	posLocation = program->bindVertexAttribute("position", 2, 4*sizeof(float), 0);
-	texCoordLocation = program->bindVertexAttribute("texCoord", 2, 4*sizeof(float), (void *)(2*sizeof(float)));
+	posLocation = program->bindVertexAttribute("position", 2, 4 * sizeof(float), 0);
+	texCoordLocation = program->bindVertexAttribute("texCoord", 2, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 	texture = spritesheet;
 	shaderProgram = program;
 	currentAnimation = -1;
 	position = glm::vec2(0.f);
+	damagekf = -1;
 }
 
 void Sprite::update(int deltaTime)
 {
-	if(currentAnimation >= 0)
+	if (currentAnimation >= 0)
 	{
 		timeAnimation += deltaTime;
-		while(timeAnimation > animations[currentAnimation].millisecsPerKeyframe)
+		while (timeAnimation > animations[currentAnimation].millisecsPerKeyframe)
 		{
 			timeAnimation -= animations[currentAnimation].millisecsPerKeyframe;
-			currentKeyframe = (currentKeyframe + 1) % animations[currentAnimation].keyframeDispl.size();
+			currentKeyframe = (currentKeyframe + 1) % animations[currentAnimation].keyframes.size();
 		}
-		texCoordDispl = animations[currentAnimation].keyframeDispl[currentKeyframe];
+		texCoordDispl = animations[currentAnimation].keyframes[currentKeyframe].keyframeDispl;
 	}
 }
 
@@ -72,24 +73,41 @@ void Sprite::setNumberAnimations(int nAnimations)
 
 void Sprite::setAnimationSpeed(int animId, int keyframesPerSec)
 {
-	if(animId < int(animations.size()))
+	if (animId < int(animations.size()))
 		animations[animId].millisecsPerKeyframe = 1000.f / keyframesPerSec;
 }
 
 void Sprite::addKeyframe(int animId, const glm::vec2 &displacement)
 {
-	if(animId < int(animations.size()))
-		animations[animId].keyframeDispl.push_back(displacement);
+	if (animId < int(animations.size())) {
+		KeyFrame KF;
+		KF.keyframeDispl = displacement;
+		KF.attack = false;
+		animations[animId].keyframes.push_back(KF);
+	}
+}
+
+void Sprite::addKeyframeWithDmg(int animId, const glm::vec2 &displacement, int dmg, const glm::vec2 &hitbox, int distance)
+{
+	if (animId < int(animations.size())) {
+		KeyFrame KF;
+		KF.keyframeDispl = displacement;
+		KF.attack = true;
+		KF.damage = dmg;
+		KF.hitbox = hitbox;
+		KF.distance = distance;
+		animations[animId].keyframes.push_back(KF);
+	}
 }
 
 void Sprite::changeAnimation(int animId)
 {
-	if(animId < int(animations.size()))
+	if (animId < int(animations.size()))
 	{
 		currentAnimation = animId;
 		currentKeyframe = 0;
 		timeAnimation = 0.f;
-		texCoordDispl = animations[animId].keyframeDispl[0];
+		texCoordDispl = animations[animId].keyframes[0].keyframeDispl;
 	}
 }
 
@@ -103,5 +121,16 @@ void Sprite::setPosition(const glm::vec2 &pos)
 	position = pos;
 }
 
+void Sprite::damageKeyframe(int i) {
+	damagekf = i;
+}
 
+bool Sprite::damage() {
+	return animations[currentAnimation].keyframes[currentKeyframe].attack;
+}
 
+int Sprite::getDamage() { return animations[currentAnimation].keyframes[currentKeyframe].damage; }
+
+glm::vec2 Sprite::getHitBox() { return animations[currentAnimation].keyframes[currentKeyframe].hitbox; }
+
+int Sprite::getDistance() { return animations[currentAnimation].keyframes[currentKeyframe].distance; }

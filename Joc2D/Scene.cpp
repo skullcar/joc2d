@@ -43,36 +43,47 @@ void Scene::init() {
 
 	Maps[LEVEL1].LoadObject("images/fire.png", glm::ivec2(320, 380), 10, texProgram);
 
+
 	Backgrounds = vector<Background>(3);
-	Backgrounds[MENU].init("images/menu.png", glm::ivec2(640, 480), texProgram);
-	Backgrounds[LEVEL1].init("images/bg1.png", glm::ivec2(2800, 480), texProgram);
-	Backgrounds[LEVEL2].init("images/bg1.png", glm::ivec2(2800, 480), texProgram);
+	Backgrounds[MENU].init("images/menu.png", glm::ivec2(640, 960), glm::vec2(1.0f, 0.5f),texProgram);
+	Backgrounds[MENU].addAnimation();
+	Backgrounds[LEVEL1].init("images/FondoDesierto.png", glm::ivec2(4000, 480), glm::vec2(1.0f, 1.0f), texProgram);
+	Backgrounds[LEVEL2].init("images/FondoDesierto.png", glm::ivec2(4000, 480), glm::vec2(1.0f, 1.0f), texProgram);
 
 	Posplayer = vector<glm::ivec2>(3);
 	Posplayer[MENU] = glm::ivec2(0, 0);
 	Posplayer[LEVEL1] = glm::ivec2(100, 320);
 	Posplayer[LEVEL2] = glm::ivec2(100, 320);
 
-	player = new Player();
-	player->init(Posplayer[level], glm::ivec2(63, 70));
-	player->setMap(&Maps[level]);
+	Musics = vector<char *>(3);
+	Musics[MENU] = "music/Menu.ogg";
+	Musics[LEVEL1] = "music/getout.ogg";
+	Musics[LEVEL2] = "";
 
-	c_x = (player->getPosition()).x - (SCREEN_WIDTH / 2);
-	if (c_x < 0) c_x = 0;
-	max_c_x = Backgrounds[level].getSize().x - SCREEN_WIDTH;
-	if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
-	Maps[level].SetCx(c_x);
+
+	music = new cMusic;
+
 	view = glm::lookAt(glm::vec3(c_x, 0, 0.f), glm::vec3(c_x, 0, -1.f), glm::vec3(0.f, 1.f, 0.f));
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+	ChangeLevel(MENU);
 }
 
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
-	glm::ivec2 p = player->getPosition();
-	glm::ivec2 s = player->getSize();
+	glm::ivec2 p;
+	glm::ivec2 s;
+	if (player != NULL) {
+		p = player->getPosition();
+		s = player->getSize();
+	}
+	else {
+		p = glm::ivec2(0, 0);
+		s = glm::ivec2(0, 0);
+	}
 	glm::vec2 b = Backgrounds[level].getSize();
+	Backgrounds[MENU].update(deltaTime);
 	if ((p.x + s.x) >= (((2.f / 3.f) * SCREEN_WIDTH) + c_x) && (c_x + SCREEN_WIDTH < b.x)) {
 		c_x += 1;
 		if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
@@ -84,11 +95,11 @@ void Scene::update(int deltaTime)
 		Maps[level].SetCx(c_x);
 	}
 	view = glm::lookAt(glm::vec3(c_x, 0.f, 0.f), glm::vec3(c_x, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
-	if (player->IsDead()) GameOver();
-	if (!(player->IsInvisible()))player->update(deltaTime);
+	if (player != NULL && player->IsDead()) GameOver();
+	if (player != NULL) player->update(deltaTime);
 	if ((Game::instance().getKey(98))) GameOver();
 	Maps[level].update(deltaTime);
-	if (level == MENU && (Game::instance().getKey(97))) ChangeLevel(level + 1);
+	if (level == MENU && (Game::instance().getKey(97))) ChangeLevel(LEVEL1);
 }
 
 void Scene::render()
@@ -103,7 +114,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	Backgrounds[level].render();
 	Maps[level].render();
-	if (!(player->IsInvisible())) player->render();
+	if (player != NULL) player->render();
 }
 
 void Scene::initShaders()
@@ -143,11 +154,32 @@ void Scene::GameOver() {
 }
 
 void Scene::ChangeLevel(int l) {
-	level = l;
-	player->setPosition(Posplayer[l]);
-	player->setMap(&Maps[level]);
-	if (player->IsInvisible()) player->setSprite(spr, texProgram);
-	if (l == MENU) player->init(Posplayer[MENU], glm::ivec2(63, 70));
+	level = l; 
+
+	if (player != NULL) {
+		player->setPosition(Posplayer[l]);
+		player->setMap(&Maps[level]);
+	}
+	if (player == NULL) {
+		player = new Player();
+		player->init(1, Posplayer[level], texProgram);
+		player->setMap(&Maps[level]);
+	}
+	c_x = (player->getPosition()).x - (SCREEN_WIDTH / 2);
+	if (c_x < 0) c_x = 0;
+	max_c_x = Backgrounds[level].getSize().x - SCREEN_WIDTH;
+	if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
+	Maps[level].SetCx(c_x);
+
+	if (music->loaded()) music->stop();
+	music->load(Musics[l]);
+	music->play();
+
+	if (l == MENU) {
+		delete player;
+		player = NULL;
+	}
+
 }
 
 

@@ -12,7 +12,7 @@ void Enemy::init(const glm::ivec2 &size, int h) {
 	invisible = true;
 }
 
-void Enemy::update(int deltatime) {
+void Enemy::update(int deltaTime) {
 
 }
 
@@ -41,4 +41,7 @@ void Enemy::AddSounds() {
 	Sounds.push_back(s);
 }
 
+void Enemy::hitted(glm::vec2 hbc, glm::vec2 hb, int dmg){
+
+}
 

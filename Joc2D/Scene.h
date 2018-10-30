@@ -9,6 +9,7 @@
 #include "Background.h"
 #include "Map.h"
 #include "cSound.h"
+#include "cMusic.h"
 
 
 
@@ -47,6 +48,8 @@ private:
 	vector<glm::ivec2> Posplayer;
 	vector<cSound> Sounds;
 	vector<Background> Backgrounds;
+	vector<char *> Musics;
+	cMusic *music;
 };
 
 

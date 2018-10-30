@@ -26,6 +26,7 @@ public:
 	void Invisible(bool inv);
 	void ChangeSprite(char* spr);
 	void AddSounds();
+	void hitted(glm::vec2 hbc, glm::vec2 hb, int dmg);
 
 private:
 	int health;

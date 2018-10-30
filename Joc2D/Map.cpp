@@ -24,14 +24,14 @@ int Map::collisionDown(glm::ivec2 Pos, glm::ivec2 size) {
 	int f = objects.size();
 	for (int i = 0; i < f; ++i) {
 		glm::ivec2 p = objects[i]->getPos();
-		if ((Pos.y + size.y - 1) > (p.y - 1) && (p.x < (Pos.x + size.x)) && ((p.x + 32) > Pos.x) && ((p.y + 28) > Pos.y)) {
+		if ((Pos.y + size.y - 1) >(p.y - 1) && (p.x < (Pos.x + size.x)) && ((p.x + 32) > Pos.x) && ((p.y + 28) > Pos.y)) {
 			return  objects[i]->damage();
 		}
 	}
 	return -1;
 }
 int Map::collisionUp(glm::ivec2 Pos, glm::ivec2 size) {
-	if (Pos.y - 1 < 480 - floor_size.y - 1) return 0;
+	if (Pos.y - size.y < 480 - floor_size.y - 1) return 0;
 	int f = objects.size();
 	for (int i = 0; i < f; ++i) {
 		glm::ivec2 p = objects[i]->getPos();
@@ -42,7 +42,7 @@ int Map::collisionUp(glm::ivec2 Pos, glm::ivec2 size) {
 	return -1;
 }
 int Map::collisionLeft(glm::ivec2 Pos, glm::ivec2 size) {
-	if (Pos.x -1 < c_x - 1) return 0;
+	if (Pos.x - size.x < c_x) return 0;
 	int f = objects.size();
 	for (int i = 0; i < f; ++i) {
 		glm::ivec2 p = objects[i]->getPos();
@@ -57,7 +57,7 @@ int Map::collisionRight(glm::ivec2 Pos, glm::ivec2 size) {
 	int f = objects.size();
 	for (int i = 0; i < f; ++i) {
 		glm::ivec2 p = objects[i]->getPos();
-		if ((Pos.x + size.x) > (p.x) && ((Pos.y) < (p.y + 28)) && ((Pos.y + size.y) > p.y) && ((Pos.x + size.x) < (p.x + 32))) {
+		if ((Pos.x + size.x) >(p.x) && ((Pos.y) < (p.y + 28)) && ((Pos.y + size.y) > p.y) && ((Pos.x + size.x) < (p.x + 32))) {
 			return  objects[i]->damage();
 		}
 	}
@@ -70,6 +70,16 @@ void Map::SetCx(int cx) { c_x = cx; }
 
 void Map::LoadObject(char* spr, const glm::ivec2 &Pos, int d, ShaderProgram &shaderProgram) {
 	Object* o = new Object;
-	o->init(spr,Pos,d,shaderProgram);
+	o->init(spr, Pos, d, shaderProgram);
 	objects.push_back(o);
+}
+
+void Map::playerdoDMG(glm::vec2 PosPlayer, int dmg, glm::vec2 hb, int dist) {
+	glm::vec2 hbc;
+	hbc.x = PosPlayer.x + dist;
+	hbc.y = PosPlayer.y;
+	int s = Enemys.size();
+	for (int i = 0; i < s; ++i){
+		Enemys[i].hitted(hbc,hb,dmg);
+	}
 }

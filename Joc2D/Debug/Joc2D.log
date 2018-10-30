@@ -1,3 +1,57 @@
-﻿  Player.cpp
-  Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.exe
-  Joc2D.vcxproj -> C:\Users\esaus\Desktop\Universitat\Optatives\VJ\Joc2D\Debug\Joc2D.pdb (Full PDB)
+﻿Build started 30/10/2018 16:29:15.
+     1>Project "\\pax\perfils\eloi.saus.CR\Desktop\Joc2D\Joc2D\Joc2D.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Archivos de programa\Microsoft Visual Studio 2013 Professional\VC\bin\CL.exe /c /I"..\libs\irrKlang-1.6.0\include" /I..\libs\freeglut\include /I"..\libs\glew-1.13.0\include" /I..\libs\glm /I"..\libs\Simple OpenGL Image Library\src" /I..\libs\SFML\include /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Enemy.cpp Game.cpp Map.cpp Object.cpp Player.cpp Scene.cpp main.cpp
+         Map.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.cpp(3): error C2512: 'std::vector' : no appropriate default constructor available
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.cpp(81): error C2662: '_Vector_alloc<!std::is_empty<_Alloc_types::_Alloc>::value,std::_Vec_base_types<_Ty,_Alloc_types::_Alloc>>::size_type std::vector<_Ty,_Alloc>::size(void) throw() const' : cannot convert 'this' pointer from 'std::vector' to 'const std::vector<_Ty,_Alloc> &'
+                 Reason: cannot convert from 'std::vector' to 'const std::vector<_Ty,_Alloc>'
+                 Conversion requires a second user-defined-conversion operator or constructor
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.cpp(83): error C2678: binary '[' : no operator found which takes a left-hand operand of type 'std::vector' (or there is no acceptable conversion)
+                 c:\archivos de programa\microsoft visual studio 2013 professional\vc\include\vector(1196): could be '_Vector_alloc<!std::is_empty<_Alloc_types::_Alloc>::value,std::_Vec_base_types<_Ty,_Alloc_types::_Alloc>>::reference std::vector<_Ty,_Alloc>::operator [](_Vector_alloc<!std::is_empty<_Alloc_types::_Alloc>::value,std::_Vec_base_types<_Ty,_Alloc_types::_Alloc>>::size_type)'
+                 c:\archivos de programa\microsoft visual studio 2013 professional\vc\include\vector(1180): or       '_Vector_alloc<!std::is_empty<_Alloc_types::_Alloc>::value,std::_Vec_base_types<_Ty,_Alloc_types::_Alloc>>::const_reference std::vector<_Ty,_Alloc>::operator [](_Vector_alloc<!std::is_empty<_Alloc_types::_Alloc>::value,std::_Vec_base_types<_Ty,_Alloc_types::_Alloc>>::size_type) const'
+                 while trying to match the argument list '(std::vector, int)'
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.cpp(83): error C2228: left of '.hitted' must have class/struct/union
+         Enemy.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+         Generating Code...
+         Compiling...
+         Game.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+         Generating Code...
+         Compiling...
+         Object.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+         Generating Code...
+         Compiling...
+         Player.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(240): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(244): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(252): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(270): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(272): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(277): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\player.cpp(279): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+         Generating Code...
+         Compiling...
+         Scene.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+         Generating Code...
+         Compiling...
+         main.cpp
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2065: 'Enemy' : undeclared identifier
+     1>\\pax\perfils\eloi.saus.cr\desktop\joc2d\joc2d\map.h(30): error C2923: 'std::vector' : 'Enemy' is not a valid template type argument for parameter '_Ty'
+         Generating Code...
+     1>Done Building Project "\\pax\perfils\eloi.saus.CR\Desktop\Joc2D\Joc2D\Joc2D.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:09.19

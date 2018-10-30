@@ -12,7 +12,7 @@ bool cSound::load(const string &filename) {
 }
 
 void cSound::play() {
-	if (sound->getStatus() != 2) sound->play();
+	if (sound->getStatus() != Music::Playing) sound->play();
 }
 
 void cSound::stop() {
