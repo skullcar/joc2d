@@ -17,6 +17,7 @@ enum Levels {
 };
 
 
+
 Scene::Scene()
 {
 	map = NULL;
@@ -96,10 +97,18 @@ void Scene::update(int deltaTime)
 	}
 	view = glm::lookAt(glm::vec3(c_x, 0.f, 0.f), glm::vec3(c_x, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
 	if (player != NULL && player->IsDead()) GameOver();
-	if (player != NULL) player->update(deltaTime);
-	if ((Game::instance().getKey(98))) GameOver();
+	if (player != NULL) {
+		player->update(deltaTime);
+		if (player->DoDamage()) {
+			int dmg = player->GetDamage();
+			glm::vec2 hb = player->GetHitBoxDist();
+			glm::vec2 hbc = player->GetHitBox();
+			Maps[level].ObjectDamage(hbc, hb, dmg);
+		}
+	}
 	Maps[level].update(deltaTime);
 	if (level == MENU && (Game::instance().getKey(97))) ChangeLevel(LEVEL1);
+	if (Game::instance().getKey(98)) ChangeLevel(MENU);
 }
 
 void Scene::render()
@@ -114,7 +123,9 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 	Backgrounds[level].render();
 	Maps[level].render();
-	if (player != NULL) player->render();
+	if (player != NULL) {
+		player->render();
+	}
 }
 
 void Scene::initShaders()
@@ -155,7 +166,6 @@ void Scene::GameOver() {
 
 void Scene::ChangeLevel(int l) {
 	level = l; 
-
 	if (player != NULL) {
 		player->setPosition(Posplayer[l]);
 		player->setMap(&Maps[level]);
@@ -170,6 +180,7 @@ void Scene::ChangeLevel(int l) {
 	max_c_x = Backgrounds[level].getSize().x - SCREEN_WIDTH;
 	if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
 	Maps[level].SetCx(c_x);
+	Maps[LEVEL1].LoadObject("images/fire.png", glm::ivec2(320, 380), 10, texProgram);
 
 	if (music->loaded()) music->stop();
 	music->load(Musics[l]);

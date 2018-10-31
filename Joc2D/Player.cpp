@@ -49,12 +49,6 @@ void Player::update(int deltaTime)
 			sprite->changeAnimation(ATTACK_1_LEFT);
 		else if (facing == RIGHT && sprite->animation() != ATTACK_1_RIGHT)
 			sprite->changeAnimation(ATTACK_1_RIGHT);
-		if (sprite->damage()) {
-			int dmg = sprite->getDamage();
-			glm::vec2 hb = sprite->getHitBox();
-			int dist = sprite->getDistance();
-			map->playerdoDMG(posPlayer, dmg, hb, dist);
-		}
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_UP)) {
 		facing = LEFT;
@@ -341,31 +335,31 @@ void Player::createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram
 		sprite->addKeyframe(JUMP_LEFT, glm::vec2(x*0.125f, 0.85f));
 	}
 
-	sprite->setAnimationSpeed(ATTACK_1_RIGHT, 9);
+	sprite->setAnimationSpeed(ATTACK_1_RIGHT, 8);
 	for (int x = 0; x < 5; x++) {
 		if (x == 3) {
-			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.0f), 30, glm::vec2(30, 30), 45);
+			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.0f), 4, glm::vec2(30, 30), 45);
 			sprite->damageKeyframe(x);
 		}
 		else sprite->addKeyframe(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.0f));
 	}
 	for (int x = 0; x < 5; x++) {
 		if (x == 4) {
-			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.05f), 50, glm::vec2(30, 40), 45);
+			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.05f), 6, glm::vec2(30, 40), 45);
 			sprite->damageKeyframe(x);
 		}
 		else sprite->addKeyframe(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.05f));
 	}
 	for (int x = 0; x < 5; x++) {
 		if (x == 3) {
-			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.1f), 30, glm::vec2(30, 30), 45);
+			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.1f), 4, glm::vec2(30, 30), 45);
 			sprite->damageKeyframe(x);
 		}
 		else sprite->addKeyframe(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.1f));
 	}
 	for (int x = 0; x < 7; x++) {
 		if (x == 4) {
-			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.15f), 80, glm::vec2(60, 60), 45);
+			sprite->addKeyframeWithDmg(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.15f), 6, glm::vec2(60, 60), 45);
 			sprite->damageKeyframe(x);
 		}
 		else sprite->addKeyframe(ATTACK_1_RIGHT, glm::vec2(x*0.125f, 0.15f));
@@ -404,6 +398,26 @@ void Player::createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram
 	sprite->changeAnimation(0);
 	//sprite->setPosition(glm::vec2(posPlayer.x - 59, posPlayer.y - A_COLISION_Y));
 	sprite->setPosition(glm::vec2(posPlayer.x - spriteMove.x, posPlayer.y - spriteMove.y));
+}
+
+bool Player::DoDamage() {
+	return sprite->damage();
+}
+
+int Player::GetDamage() {
+	return sprite->getDamage();
+}
+
+glm::vec2 Player::GetHitBoxDist() {
+	return sprite->getHitBox();
+}
+
+glm::vec2 Player::GetHitBox() {
+	int d = sprite->getDistance();
+	glm::vec2 hb;
+	hb.x = posPlayer.x + d;
+	hb.y = posPlayer.y;
+	return hb;
 }
 
 void createBlizzard(const glm::ivec2 &Pos, ShaderProgram &shaderProgram) {}

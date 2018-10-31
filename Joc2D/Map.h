@@ -21,13 +21,13 @@ public:
 	void LoadObject(char* spr, const glm::ivec2 &Pos, int d, ShaderProgram &shaderProgram);
 	void AddMusic(cMusic m);
 	void playerdoDMG(glm::vec2 Pos,int dmg,glm::vec2 hb,int dist);
+	bool ObjectDamage(glm::vec2 hbc, glm::vec2 hb, int dmg);
 
 private:
 	Background back;
 	glm::ivec2 floor_size;
 	int c_x;
-	vector<Object*> objects;
-	vector<Enemy> Enemys;
+	list<Object*> objects;
 };
 
 #endif

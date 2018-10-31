@@ -28,6 +28,10 @@ public:
 	glm::ivec2 getSize();
 
 	bool IsDead();
+	bool DoDamage();
+	int GetDamage();
+	glm::vec2 GetHitBoxDist();
+	glm::vec2 GetHitBox();
 
 	
 private:

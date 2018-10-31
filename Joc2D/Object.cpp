@@ -8,6 +8,7 @@ void Object::init(char* spr, const glm::ivec2 &Pos, int d, ShaderProgram &shader
 	dmg = d;
 	LoadSprite(spr,shaderProgram);
 	PosObject.y += 70/2;
+	health = 73;
 }
 
 void Object::render() {
@@ -33,3 +34,20 @@ void Object::LoadSprite(char* spr, ShaderProgram &shaderProgram) {
 	sprite->changeAnimation(0);
 	sprite->setPosition(PosObject);
 }
+
+bool  Object::getDamage(glm::vec2 hbc, glm::vec2 hb, int dmg) {
+	int cox = PosObject.x + 16;
+	int coy = PosObject.y + 14;
+	if ((abs(hbc.x - cox) < ((hb.x/2) + 16)) &&
+		(abs(hbc.y - coy) < ((hb.y/2) + 14))) {
+		health -= dmg;
+		return true;
+	}
+	return false;
+}
+
+bool Object::Destroyed() {
+	return health <= 0;
+}
+
+int Object::getHealth() { return health; }
