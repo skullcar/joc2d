@@ -13,7 +13,7 @@
 #define INIT_PLAYER_Y_TILES 15
 
 enum Levels {
-	MENU,LEVEL1,LEVEL2
+	MENU,LEVEL1,LEVEL2,SELECT
 };
 
 
@@ -34,22 +34,26 @@ Scene::~Scene()
 void Scene::init() {
 	initShaders();
 
-	spr = "images/1.png";
+	sel = new Select;
+	sel->init(texProgram);
+
+	
 	level = 0;
 
-	Maps = vector<Map>(3);
+	Maps = vector<Map>(4);
 	Maps[MENU].init(texProgram, glm::ivec2(0,0));
 	Maps[LEVEL1].init(texProgram, glm::ivec2(2800, 180));
 	Maps[LEVEL2].init(texProgram, glm::ivec2(2800, 180));
+	Maps[SELECT].init(texProgram, glm::ivec2(0, 0));
 
-	Maps[LEVEL1].LoadObject("images/fire.png", glm::ivec2(320, 380), 10, texProgram);
-
-
-	Backgrounds = vector<Background>(3);
+	Backgrounds = vector<Background>(4);
 	Backgrounds[MENU].init("images/menu.png", glm::ivec2(640, 960), glm::vec2(1.0f, 0.5f),texProgram);
 	Backgrounds[MENU].addAnimation();
-	Backgrounds[LEVEL1].init("images/FondoDesierto.png", glm::ivec2(4000, 480), glm::vec2(1.0f, 1.0f), texProgram);
-	Backgrounds[LEVEL2].init("images/FondoDesierto.png", glm::ivec2(4000, 480), glm::vec2(1.0f, 1.0f), texProgram);
+	Backgrounds[LEVEL1].init("images/FondoDesierto.png", glm::ivec2(3430, 480), glm::vec2(1.0f, 1.0f), texProgram);
+	Backgrounds[LEVEL2].init("images/background2.png", glm::ivec2(1090, 480), glm::vec2(1.0f, 1.0f), texProgram);
+	Backgrounds[SELECT].init("images/select.png", glm::ivec2(640, 480), glm::vec2(1.0f, 1.0f), texProgram);
+
+	Maps[LEVEL1].LoadObject("images/fire.png", glm::ivec2(320, 380), 10, texProgram);
 
 	Posplayer = vector<glm::ivec2>(3);
 	Posplayer[MENU] = glm::ivec2(0, 0);
@@ -70,7 +74,7 @@ void Scene::init() {
 	ChangeLevel(MENU);
 }
 
-void Scene::update(int deltaTime)
+void Scene::update(int deltaTime, int frame)
 {
 	currentTime += deltaTime;
 	glm::ivec2 p;
@@ -84,7 +88,7 @@ void Scene::update(int deltaTime)
 		s = glm::ivec2(0, 0);
 	}
 	glm::vec2 b = Backgrounds[level].getSize();
-	Backgrounds[MENU].update(deltaTime);
+	Backgrounds[level].update(deltaTime);
 	if ((p.x + s.x) >= (((2.f / 3.f) * SCREEN_WIDTH) + c_x) && (c_x + SCREEN_WIDTH < b.x)) {
 		c_x += 1;
 		if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
@@ -96,7 +100,10 @@ void Scene::update(int deltaTime)
 		Maps[level].SetCx(c_x);
 	}
 	view = glm::lookAt(glm::vec3(c_x, 0.f, 0.f), glm::vec3(c_x, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
-	if (player != NULL && player->IsDead()) GameOver();
+	if (player != NULL && player->IsDead()) {
+		if (frame_death == 30) GameOver();
+		else ++frame_death;
+	}
 	if (player != NULL) {
 		player->update(deltaTime);
 		if (player->DoDamage()) {
@@ -107,8 +114,15 @@ void Scene::update(int deltaTime)
 		}
 	}
 	Maps[level].update(deltaTime);
-	if (level == MENU && (Game::instance().getKey(97))) ChangeLevel(LEVEL1);
-	if (Game::instance().getKey(98)) ChangeLevel(MENU);
+	if (level == SELECT) {
+		idP = sel->update(deltaTime,frame);
+		if (idP > -1) ChangeLevel(LEVEL1);
+	}
+	if (level == MENU && (Game::instance().getKey(97))) {
+		ChangeLevel(SELECT);
+		Game::instance().keyReleased(97);
+	}
+	if (Game::instance().getKey(98)) ChangeLevel(LEVEL2);
 }
 
 void Scene::render()
@@ -126,6 +140,7 @@ void Scene::render()
 	if (player != NULL) {
 		player->render();
 	}
+	if (level == SELECT) sel->render();
 }
 
 void Scene::initShaders()
@@ -165,32 +180,41 @@ void Scene::GameOver() {
 }
 
 void Scene::ChangeLevel(int l) {
-	level = l; 
-	if (player != NULL) {
-		player->setPosition(Posplayer[l]);
-		player->setMap(&Maps[level]);
+	level = l;
+	if (level == MENU) {
+		frame_death = 0;
+		if (player != NULL) {
+			delete player;
+			player = NULL;
+		}
+		c_x = 0;
 	}
-	if (player == NULL) {
-		player = new Player();
-		player->init(1, Posplayer[level], texProgram);
-		player->setMap(&Maps[level]);
+	else if (level == SELECT) {
+		c_x = 0;
 	}
-	c_x = (player->getPosition()).x - (SCREEN_WIDTH / 2);
-	if (c_x < 0) c_x = 0;
+	else {
+		if (player != NULL) {
+			player->setPosition(Posplayer[l]);
+			player->setMap(&Maps[level]);
+		}
+		if (player == NULL) {
+			player = new Player();
+			player->init(idP, Posplayer[level], texProgram);
+			player->setMap(&Maps[level]);
+		}
+		c_x = (player->getPosition()).x - (SCREEN_WIDTH / 2);
+		if (c_x < 0) c_x = 0;
+		
+	}
 	max_c_x = Backgrounds[level].getSize().x - SCREEN_WIDTH;
 	if (c_x > max_c_x + (float(SCREEN_WIDTH) / 2)) c_x = max_c_x;
 	Maps[level].SetCx(c_x);
-	Maps[LEVEL1].LoadObject("images/fire.png", glm::ivec2(320, 380), 10, texProgram);
 
-	if (music->loaded()) music->stop();
-	music->load(Musics[l]);
-	music->play();
-
-	if (l == MENU) {
-		delete player;
-		player = NULL;
+	if (level != SELECT) {
+		if(music->loaded()) music->stop();
+		music->load(Musics[l]);
+		music->play();
 	}
-
 }
 
 

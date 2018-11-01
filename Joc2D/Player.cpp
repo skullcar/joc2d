@@ -20,8 +20,7 @@
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT, JUMP_LEFT, JUMP_RIGHT,
-	ATTACK_1_LEFT, ATTACK_1_RIGHT, ATTACK_2_LEFT, ATTACK_2_RIGHT,ATTACK_3_LEFT,ATTACK_3_RIGHT,
-	ATTACK_4_LEFT,ATTACK_4_RIGHT
+	ATTACK_1_LEFT, ATTACK_1_RIGHT, DEAD
 };
 
 enum PlayerSounds
@@ -39,216 +38,225 @@ void Player::init(int type, const glm::ivec2 &Pos, ShaderProgram &shaderProgram)
 {
 	if (type == 1) Player::createAvalanche(Pos, shaderProgram);
 	bJumping = false;
+	bar = new Health;
+	bar->init(shaderProgram);
 }
 
 void Player::update(int deltaTime)
 {
 	sprite->update(deltaTime);
-	if (Game::instance().getKey(A)) {
-		if (facing == LEFT && sprite->animation() != ATTACK_1_LEFT)
-			sprite->changeAnimation(ATTACK_1_LEFT);
-		else if (facing == RIGHT && sprite->animation() != ATTACK_1_RIGHT)
-			sprite->changeAnimation(ATTACK_1_RIGHT);
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-		facing = LEFT;
-		if (!bJumping && sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= speed;
-		posPlayer.y -= speed;
-		int dmg1 = map->collisionLeft(posPlayer, colisionSize);
-		if (dmg1 == 0) {
-			posPlayer.x += speed;
-		}
-		if (dmg1 > 0)
-		{
-			posPlayer.x += 2 * speed;
-			health -= dmg1;
-			Sounds[DAMAGE]->play();
-		}
-		int dmg2 = map->collisionUp(posPlayer, colisionSize);
-		if (dmg2 == 0) posPlayer.y += speed;
-		else if (dmg2 > 0){
-			posPlayer.y += 2 * speed;
-			if (dmg1 == 0) {
-				health -= dmg1;
-				Sounds[DAMAGE]->play();
-			}
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_UP)){
-		facing = RIGHT;
-		if (!bJumping && sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += speed;
-		posPlayer.y -= speed;
-		int dmg1 = map->collisionRight(posPlayer, colisionSize);
-		if (dmg1 == 0) {
-			posPlayer.x -= speed;
-		}
-		if (dmg1 > 0)
-		{
-			posPlayer.x -= 2 * speed;
-			health -= dmg1;
-			Sounds[DAMAGE]->play();
-		}
-		int dmg2 = map->collisionUp(posPlayer, colisionSize);
-		if (dmg2 == 0) posPlayer.y += speed;
-		else if (dmg2 > 0) {
-			posPlayer.y += 2 * speed;
-			if (dmg1 == 0) {
-				health -= dmg1;
-				Sounds[DAMAGE]->play();
-			}
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
-	{
-		facing = LEFT;
-		if (sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= speed;
-		posPlayer.y += speed;
-		int dmg1 = map->collisionLeft(posPlayer, colisionSize);
-		if (dmg1 == 0) {
-			posPlayer.x += speed;
-		}
-		if (dmg1 > 0)
-		{
-			posPlayer.x += 2 * speed;
-			health -= dmg1;
-			Sounds[DAMAGE]->play();
-		}
-		int dmg2 = map->collisionDown(posPlayer, colisionSize);
-		if (dmg2 == 0) posPlayer.y -= speed;
-		else if (dmg2 > 0) {
-			posPlayer.y -= 2 * speed;
-			if (dmg1 == 0) {
-				health -= dmg1;
-				Sounds[DAMAGE]->play();
-			}
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
-	{
-		facing = RIGHT;
-		if (sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += speed;
-		posPlayer.y += speed;
-		int dmg1 = map->collisionRight(posPlayer, colisionSize);
-		if (dmg1 == 0) {
-			posPlayer.x -= speed;
-		}
-		if (dmg1 > 0)
-		{
-			posPlayer.x -= 2 * speed;
-			health -= dmg1;
-			Sounds[DAMAGE]->play();
-		}
-		int dmg2 = map->collisionDown(posPlayer, colisionSize);
-		if (dmg2 == 0) posPlayer.y -= speed;
-		else if (dmg2 > 0) {
-			posPlayer.y -= 2 * speed;
-			if (dmg1 == 0) {
-				health -= dmg1;
-				Sounds[DAMAGE]->play();
-			}
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
-	{
-		facing = LEFT;
-		if (!bJumping && sprite->animation() != MOVE_LEFT)
-			sprite->changeAnimation(MOVE_LEFT);
-		posPlayer.x -= speed;
-		int dmg = map->collisionLeft(posPlayer, colisionSize);
-		if (dmg == 0) {
-			posPlayer.x += speed;
-		}
-		if (dmg > 0)
-		{
-			posPlayer.x += 2 * speed;
-			health -= dmg;
-			Sounds[DAMAGE]->play();
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
-	{
-		facing = RIGHT;
-		if (!bJumping && sprite->animation() != MOVE_RIGHT)
-			sprite->changeAnimation(MOVE_RIGHT);
-		posPlayer.x += speed;
-		int dmg = map->collisionRight(posPlayer, colisionSize);
-		if (dmg == 0) {
-			posPlayer.x -= speed;
-		}
-		if (dmg > 0)
-		{
-			posPlayer.x -= 2 * speed;
-			health -= dmg;
-			Sounds[DAMAGE]->play();
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-		if (!bJumping) {
-			if (facing == RIGHT && sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-			else if (facing == LEFT && sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-		}
-		posPlayer.y -= speed;
-		int dmg = map->collisionUp(posPlayer, colisionSize);
-		if (dmg == 0) posPlayer.y += speed;
-		else if (dmg > 0) {
-			posPlayer.y += 2 * speed;
-			health -= dmg;
-			Sounds[DAMAGE]->play();
-		}
-	}
-	else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-		if (!bJumping) {
-			if (facing == RIGHT && sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
-			else if (facing == LEFT && sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
-		}
-		posPlayer.y += speed;
-		int dmg = map->collisionDown(posPlayer, colisionSize);
-		if (dmg == 0) posPlayer.y -= speed;
-		else if (dmg > 0) {
-			posPlayer.y -= 2 * speed;
-			health -= dmg;
-			Sounds[DAMAGE]->play();
-		}
+	if (IsDead()) {
+		if(sprite->animation() != DEAD) sprite->changeAnimation(DEAD);
+		else ++deltaTime;
 	}
 	else {
-		if (!bJumping) {
-			if (facing == LEFT && sprite->animation() != STAND_LEFT)
-				sprite->changeAnimation(STAND_LEFT);
-			else if (facing == RIGHT && sprite->animation() != STAND_RIGHT) sprite->changeAnimation(STAND_RIGHT);
+		if (Game::instance().getKey(A)) {
+			if (facing == LEFT && sprite->animation() != ATTACK_1_LEFT)
+				sprite->changeAnimation(ATTACK_1_LEFT);
+			else if (facing == RIGHT && sprite->animation() != ATTACK_1_RIGHT)
+				sprite->changeAnimation(ATTACK_1_RIGHT);
 		}
-	}
-	if (bJumping) {
-		if (facing == RIGHT && (sprite->animation() != JUMP_RIGHT)) sprite->changeAnimation(JUMP_RIGHT);
-		else if (facing == LEFT && (sprite->animation() != JUMP_LEFT)) sprite->changeAnimation(JUMP_LEFT);
-		jumpAngle += A_JUMP_ANGLE_STEP;
-		if (jumpAngle >= 180) {
-			bJumping = false;
-			posPlayer.y = startY;
+		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+			facing = LEFT;
+			if (!bJumping && sprite->animation() != MOVE_LEFT)
+				sprite->changeAnimation(MOVE_LEFT);
+			posPlayer.x -= speed;
+			posPlayer.y -= speed;
+			int dmg1 = map->collisionLeft(posPlayer, colisionSize);
+			if (dmg1 == 0) {
+				posPlayer.x += speed;
+			}
+			if (dmg1 > 0)
+			{
+				posPlayer.x += 2 * speed;
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
+			int dmg2 = map->collisionUp(posPlayer, colisionSize);
+			if (dmg2 == 0) posPlayer.y += speed;
+			else if (dmg2 > 0) {
+				posPlayer.y += 2 * speed;
+				if (dmg1 == 0) {
+					health -= dmg1;
+					Sounds[DAMAGE]->play();
+				}
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+			facing = RIGHT;
+			if (!bJumping && sprite->animation() != MOVE_RIGHT)
+				sprite->changeAnimation(MOVE_RIGHT);
+			posPlayer.x += speed;
+			posPlayer.y -= speed;
+			int dmg1 = map->collisionRight(posPlayer, colisionSize);
+			if (dmg1 == 0) {
+				posPlayer.x -= speed;
+			}
+			if (dmg1 > 0)
+			{
+				posPlayer.x -= 2 * speed;
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
+			int dmg2 = map->collisionUp(posPlayer, colisionSize);
+			if (dmg2 == 0) posPlayer.y += speed;
+			else if (dmg2 > 0) {
+				posPlayer.y += 2 * speed;
+				if (dmg1 == 0) {
+					health -= dmg1;
+					Sounds[DAMAGE]->play();
+				}
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
+		{
+			facing = LEFT;
+			if (sprite->animation() != MOVE_LEFT)
+				sprite->changeAnimation(MOVE_LEFT);
+			posPlayer.x -= speed;
+			posPlayer.y += speed;
+			int dmg1 = map->collisionLeft(posPlayer, colisionSize);
+			if (dmg1 == 0) {
+				posPlayer.x += speed;
+			}
+			if (dmg1 > 0)
+			{
+				posPlayer.x += 2 * speed;
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
+			int dmg2 = map->collisionDown(posPlayer, colisionSize);
+			if (dmg2 == 0) posPlayer.y -= speed;
+			else if (dmg2 > 0) {
+				posPlayer.y -= 2 * speed;
+				if (dmg1 == 0) {
+					health -= dmg1;
+					Sounds[DAMAGE]->play();
+				}
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT) && Game::instance().getSpecialKey(GLUT_KEY_DOWN))
+		{
+			facing = RIGHT;
+			if (sprite->animation() != MOVE_RIGHT)
+				sprite->changeAnimation(MOVE_RIGHT);
+			posPlayer.x += speed;
+			posPlayer.y += speed;
+			int dmg1 = map->collisionRight(posPlayer, colisionSize);
+			if (dmg1 == 0) {
+				posPlayer.x -= speed;
+			}
+			if (dmg1 > 0)
+			{
+				posPlayer.x -= 2 * speed;
+				health -= dmg1;
+				Sounds[DAMAGE]->play();
+			}
+			int dmg2 = map->collisionDown(posPlayer, colisionSize);
+			if (dmg2 == 0) posPlayer.y -= speed;
+			else if (dmg2 > 0) {
+				posPlayer.y -= 2 * speed;
+				if (dmg1 == 0) {
+					health -= dmg1;
+					Sounds[DAMAGE]->play();
+				}
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
+		{
+			facing = LEFT;
+			if (!bJumping && sprite->animation() != MOVE_LEFT)
+				sprite->changeAnimation(MOVE_LEFT);
+			posPlayer.x -= speed;
+			int dmg = map->collisionLeft(posPlayer, colisionSize);
+			if (dmg == 0) {
+				posPlayer.x += speed;
+			}
+			if (dmg > 0)
+			{
+				posPlayer.x += 2 * speed;
+				health -= dmg;
+				Sounds[DAMAGE]->play();
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
+		{
+			facing = RIGHT;
+			if (!bJumping && sprite->animation() != MOVE_RIGHT)
+				sprite->changeAnimation(MOVE_RIGHT);
+			posPlayer.x += speed;
+			int dmg = map->collisionRight(posPlayer, colisionSize);
+			if (dmg == 0) {
+				posPlayer.x -= speed;
+			}
+			if (dmg > 0)
+			{
+				posPlayer.x -= 2 * speed;
+				health -= dmg;
+				Sounds[DAMAGE]->play();
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+			if (!bJumping) {
+				if (facing == RIGHT && sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+				else if (facing == LEFT && sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+			}
+			posPlayer.y -= speed;
+			int dmg = map->collisionUp(posPlayer, colisionSize);
+			if (dmg == 0) posPlayer.y += speed;
+			else if (dmg > 0) {
+				posPlayer.y += 2 * speed;
+				health -= dmg;
+				Sounds[DAMAGE]->play();
+			}
+		}
+		else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+			if (!bJumping) {
+				if (facing == RIGHT && sprite->animation() != MOVE_RIGHT) sprite->changeAnimation(MOVE_RIGHT);
+				else if (facing == LEFT && sprite->animation() != MOVE_LEFT) sprite->changeAnimation(MOVE_LEFT);
+			}
+			posPlayer.y += speed;
+			int dmg = map->collisionDown(posPlayer, colisionSize);
+			if (dmg == 0) posPlayer.y -= speed;
+			else if (dmg > 0) {
+				posPlayer.y -= 2 * speed;
+				health -= dmg;
+				Sounds[DAMAGE]->play();
+			}
 		}
 		else {
-			if (map->collisionDown(posPlayer, colisionSize) >= 0) posPlayer.x -= speed;
-			posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			if (!bJumping) {
+				if (facing == LEFT && sprite->animation() != STAND_LEFT)
+					sprite->changeAnimation(STAND_LEFT);
+				else if (facing == RIGHT && sprite->animation() != STAND_RIGHT) sprite->changeAnimation(STAND_RIGHT);
+			}
 		}
-	}
-	else if (Game::instance().getKey(S)) {
-		if (facing == RIGHT && (sprite->animation() != JUMP_RIGHT)) sprite->changeAnimation(JUMP_RIGHT);
-		else if (facing == LEFT && (sprite->animation() != JUMP_LEFT)) sprite->changeAnimation(JUMP_LEFT);
-		bJumping = true;
-		jumpAngle = 0;
-		startY = posPlayer.y;
+		if (bJumping) {
+			if (facing == RIGHT && (sprite->animation() != JUMP_RIGHT)) sprite->changeAnimation(JUMP_RIGHT);
+			else if (facing == LEFT && (sprite->animation() != JUMP_LEFT)) sprite->changeAnimation(JUMP_LEFT);
+			jumpAngle += A_JUMP_ANGLE_STEP;
+			if (jumpAngle >= 180) {
+				bJumping = false;
+				posPlayer.y = startY;
+			}
+			else {
+				if (map->collisionDown(posPlayer, colisionSize) >= 0) posPlayer.x -= speed;
+				posPlayer.y = int(startY - 96 * sin(3.14159f * jumpAngle / 180.f));
+			}
+		}
+		else if (Game::instance().getKey(S)) {
+			if (facing == RIGHT && (sprite->animation() != JUMP_RIGHT)) sprite->changeAnimation(JUMP_RIGHT);
+			else if (facing == LEFT && (sprite->animation() != JUMP_LEFT)) sprite->changeAnimation(JUMP_LEFT);
+			bJumping = true;
+			jumpAngle = 0;
+			startY = posPlayer.y;
+		}
 	}
 
 	sprite->setPosition(glm::vec2(posPlayer.x - spriteMove.x, posPlayer.y - spriteMove.y));
 	if (sprite->animation() == MOVE_LEFT || sprite->animation() == MOVE_RIGHT && !bJumping) Sounds[WALK]->play();
 	else  Sounds[WALK]->stop();
+	bar->update(float(health)/mhealth);
 }
 
 void Player::setMap(Map *mapn) {
@@ -258,6 +266,7 @@ void Player::setMap(Map *mapn) {
 void Player::render()
 {
 	sprite->render();
+	bar->render();
 }
 
 void Player::setSize(const glm::ivec2 &size){
@@ -295,6 +304,7 @@ void Player::createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram
 	bJumping = false;
 	facing = RIGHT;
 	health = A_INIT_HEALTH;
+	mhealth = health;
 	speed = A_INIT_SPEED;
 	AddSounds();
 	spritesheet.loadFromFile("images/AvalancheDouble.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -303,7 +313,7 @@ void Player::createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram
 	colisionSize = glm::ivec2(A_COLISION_X, A_COLISION_Y);
 	hitboxSize = glm::ivec2(A_HITBOX_X, A_HITBOX_Y);
 	spriteMove = glm::ivec2(A_SPRITE_X, A_SPRITE_Y);
-	sprite->setNumberAnimations(8);
+	sprite->setNumberAnimations(9);
 
 	sprite->setAnimationSpeed(STAND_RIGHT, 8);
 	for (int x = 0; x < 6; x++) {
@@ -393,6 +403,11 @@ void Player::createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram
 			sprite->damageKeyframe(x);
 		}
 		else sprite->addKeyframe(ATTACK_1_LEFT, glm::vec2(x*0.125f, 0.65f));
+	}
+
+	sprite->setAnimationSpeed(DEAD, 8);
+	for (int x = 0; x < 4; x++) {
+		sprite->addKeyframe(DEAD, glm::vec2(x*0.125f, 0.20f));
 	}
 
 	sprite->changeAnimation(0);

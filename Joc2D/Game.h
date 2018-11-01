@@ -26,7 +26,7 @@ public:
 	}
 	
 	void init();
-	bool update(int deltaTime);
+	bool update(int deltaTime,int frame);
 	void render();
 	
 	// Input callback methods

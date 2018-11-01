@@ -2,9 +2,6 @@
 #include "Game.h"
 
 
-enum Levels {
-	MENU,LEVEL1,LEVEL2
-};
 
 void Game::init()
 {
@@ -13,9 +10,9 @@ void Game::init()
 	scene.init();
 }
 
-bool Game::update(int deltaTime)
+bool Game::update(int deltaTime,int frame)
 {
-	scene.update(deltaTime);
+	scene.update(deltaTime,frame);
 	
 	return bPlay;
 }

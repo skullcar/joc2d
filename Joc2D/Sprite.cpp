@@ -134,3 +134,5 @@ int Sprite::getDamage() { return animations[currentAnimation].keyframes[currentK
 glm::vec2 Sprite::getHitBox() { return animations[currentAnimation].keyframes[currentKeyframe].hitbox; }
 
 int Sprite::getDistance() { return animations[currentAnimation].keyframes[currentKeyframe].distance; }
+
+

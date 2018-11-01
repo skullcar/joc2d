@@ -37,11 +37,13 @@ public:
 	int animation() const;
 
 	void setPosition(const glm::vec2 &pos);
+	
 	bool damage();
 
 	int getDamage();
 	glm::vec2 getHitBox();
 	int getDistance();
+
 
 private:
 	Texture *texture;

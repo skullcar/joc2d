@@ -6,7 +6,7 @@
 #include "Sprite.h"
 #include "Map.h"
 #include "cSound.h"
-
+#include "Health.h"
 
 // Player is basically a Sprite that represents the player. As such it has
 // all properties it needs to track its movement, jumping, and collisions.
@@ -36,7 +36,7 @@ public:
 	
 private:
 
-	int health, speed;
+	int health, speed, mhealth;
 	int combo;
 	bool bJumping;
 	glm::vec2 posPlayer, colisionSize, hitboxSize, spriteMove;
@@ -46,6 +46,7 @@ private:
 	Sprite *sprite;
 	Map *map;
 	vector<cSound*> Sounds;
+	Health *bar;
 
 	void createAvalanche(const glm::ivec2 &Pos, ShaderProgram &shaderProgram);
 	void createBlizzard(const glm::ivec2 &Pos, ShaderProgram &shaderProgram);

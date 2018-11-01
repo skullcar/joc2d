@@ -16,6 +16,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 
 #include <stdio.h>
 #include <SOIL.h>

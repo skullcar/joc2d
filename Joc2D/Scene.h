@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "cSound.h"
 #include "cMusic.h"
+#include "Select.h"
 
 
 
@@ -25,7 +26,7 @@ public:
 	~Scene();
 
 	void init();
-	void update(int deltaTime);
+	void update(int deltaTime,int frame);
 	void render();
 
 private:
@@ -50,6 +51,9 @@ private:
 	vector<Background> Backgrounds;
 	vector<char *> Musics;
 	cMusic *music;
+	Select* sel;
+	int idP;
+	int frame_death;
 };
 
 
